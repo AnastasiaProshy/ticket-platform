@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.java.platform.model.Ticket;
@@ -27,11 +28,23 @@ public class TicketController
 	private @Autowired TicketService ticketService;
 	
 	@GetMapping()
-	public  String index (Model model) 
-	{	// take the data to deliver to ticket and insert them into the model
-
-		List<Ticket> tickets = ticketService.findAllSortedByRecent();
-		model.addAttribute("tickets", tickets);
+	public  String index (Model model, @RequestParam(required = false) String search) 
+	{
+		model.addAttribute("ticketSearch", search);
+		
+		List<Ticket> ticketList;
+		
+		if (search != null && !search.isEmpty())
+		{
+			model.addAttribute("ticketSearch", search);
+			ticketList = ticketService.findByTitle(search);
+		}
+		else
+		{
+			ticketList = ticketService.findAllSortedByRecent();
+		}
+		
+		model.addAttribute("tickets", ticketList);
 		
 		return "/tickets/index";
 	}
