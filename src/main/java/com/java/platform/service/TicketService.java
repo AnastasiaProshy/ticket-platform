@@ -22,6 +22,12 @@ public class TicketService {
 	}
 	
 	
+	public List<Ticket> findByTitle(String title)
+	{
+		return ticketRepository.findByTitleContainingIgnoreCaseOrderByTitleAsc (title);
+	}
+	
+	
 	public List<Ticket> findAllByTitle(String searchedText)
 	{
 		return ticketRepository.findByTitleContains(searchedText);
