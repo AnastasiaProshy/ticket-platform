@@ -9,24 +9,29 @@
 						
 						<th:block>
 							
-							<h1 class="py-4 mb-2 text-center">
-								Edit [[${ticket.title}]]
-							</h1>
+							<h3 class="py-4 mb-2 text-center">
+								You’re personalizing a <strong>[[${ticket.title}]]</strong>
+							</h3>
 							
 							<div class="row justify-content-center">
-								<div class="col-6">								
+								<div class="col-6">
+															
+									<!-- FORM -->
 									<form 
 										id="ticket-form"
 										th:object="${ticket}"
 										th:action="@{/tickets/edit/{id}(id = ${ticket.id})}" 
 										method="POST">
-																				
+											
+										
+																			
 										<div class="mb-3">
 										  <label for="title" class="form-label">Ticket</label>
-										  <input type="text" class="form-control" id="title" placeholder="Dante Hall"
+										  <input type="text" class="form-control" id="title" placeholder="Custom call"
 										  th:field="*{title}"
 										  th:errorClass="is-invalid">
 										  
+										  <!-- Title Validation Errors -->
 										  <div th:if="${#fields.hasErrors('title')}" class="invalid-feedback">
 											<ul>
 												<li th:each="err : ${#fields.errors('title')}" th:text="${err}"></li>
@@ -35,12 +40,14 @@
 										</div>
 										
 										
+										
 										<div class="mb-3">
 										  <label for="description" class="form-label">Description</label>
-										  <input type="text" class="form-control" id="description" placeholder=""
+										  <input type="text" class="form-control" id="description" placeholder="Type here some thoughts"
 										  th:field="*{description}"
 										  th:errorClass="is-invalid">
 										  
+										  <!-- Description Validation Errors -->
 										 <div th:if="${#fields.hasErrors('description')}" class="invalid-feedback">
 										  <ul>
 										  	<li th:each="err : ${#fields.errors('description')}" th:text="${err}"></li>
@@ -49,7 +56,60 @@
 										</div>
 										
 										
-										<div class="mb-4">
+										
+										<div class="mb-3">
+										  <label for="createdAt" class="form-label">Created Date:</label>
+										  <input type="date" class="form-control" id="createdAt" placeholder=""
+										  th:field="*{createdAt}"
+										  th:errorClass="is-invalid">
+										  
+										  <!-- createdAt Validation Errors -->
+										  <div th:if="${#fields.hasErrors('createdAt')}" class="invalid-feedback">
+											<ul>
+												<li th:each="err : ${#fields.errors('createdAt')}" th:text="${err}"></li>
+											</ul>
+										  </div>									  
+										</div>
+										
+										
+										
+										<div class="mb-3">
+										  <label for="updatedAt" class="form-label">Updated Date:</label>
+										  <input type="date" class="form-control" id="updatedAt" placeholder=""
+										  th:field="*{updatedAt}"
+										  th:errorClass="is-invalid">
+										  
+										  <!-- updatedAt Validation Errors -->
+										  <div th:if="${#fields.hasErrors('updatedAt')}" class="invalid-feedback">
+											<ul>
+												<li th:each="err : ${#fields.errors('updatedAt')}" th:text="${err}"></li>
+											</ul>
+										  </div>									  
+										</div>
+
+									
+										
+										<select class="form-select" aria-label="Seleziona lo stato del ticket"
+										  id="status"										  
+										  th:field="*{status}"
+										  th:errorClass="is-invalid">
+										  <option value="" disabled selected>Ticket Status</option>
+										  <option value="1">TODO</option>
+										  <option value="2">COMPLETED</option>
+										  <option value="3">ONGOING</option>
+										  <option value="4">PENDING</option>
+										</select>
+										
+										 <div th:if="${#fields.hasErrors('status')}" class="invalid-feedback">
+										  <ul>
+										  	<li th:each="err : ${#fields.errors('status')}" th:text="${err}"></li>
+										  </ul>
+										  </div>										 
+										</div>
+										
+										
+										
+										<!-- <div class="mb-4">
 										  <input type="checkbox" class="form-check-input" id="status" placeholder=""
 										  th:field="*{status}"
 										  th:errorClass="is-invalid">
@@ -60,7 +120,7 @@
 											  	<li th:each="err : ${#fields.errors('status')}" th:text="${err}"></li>
 											  </ul>
 											</div>										  
-										</div>
+										</div> -->
 										
 										
 										<div class="mb-3 d-flex justify-content-between">
