@@ -1,7 +1,9 @@
 package com.java.platform.model;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,19 +21,23 @@ public class Note
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	private String text;
+	@Column(name = "content_text", nullable = false)
+	private String content;
 	
 	@NotNull
-	private Timestamp createdAt;
+	//@NotEmpty
+	@Column(name = "created_at", nullable = false)
+	private LocalDate createdDate;
 	
 	@ManyToOne
-	@JoinColumn(name = "ticket_id")
+	@JoinColumn(name = "ticket_id", nullable = false)
 	private Ticket ticket;
 	
 	@ManyToOne
-	@JoinColumn(name = "user_id")
+	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
 
+	
 	
 	
 	public Integer getId() {
@@ -42,20 +48,20 @@ public class Note
 		this.id = id;
 	}
 
-	public String getText() {
-		return text;
+	public String getContent() {
+		return content;
 	}
 
-	public void setText(String text) {
-		this.text = text;
+	public void setContent(String content) {
+		this.content = content;
 	}
 
-	public Timestamp getCreatedAt() {
-		return createdAt;
+	public LocalDate getCreatedDate() {
+		return createdDate;
 	}
 
-	public void setCreatedAt(Timestamp createdAt) {
-		this.createdAt = createdAt;
+	public void setCreatedDate(Timestamp createdAt) {
+		this.createdDate = createdDate;
 	}
 
 	public Ticket getTicket() {
