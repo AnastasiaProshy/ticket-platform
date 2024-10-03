@@ -1,11 +1,15 @@
 package com.java.platform.model;
 
+import java.util.List;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -22,24 +26,30 @@ public class User
 	@NotNull
 	@NotEmpty
 	@Size(min=4,max=255)
+	@Column(name = "email", nullable = false)
 	private String email;
 	
 	@NotNull
 	@NotEmpty
+	@Column(name = "password", nullable = false)
 	private String password;
 	
 	@NotNull
 	@NotEmpty
 	@Size(min=3,max=255)
+	@Column(name = "full_name", nullable = false)
 	private String fullName;
 	
 	@ManyToOne
-	@JoinColumn(name = "role_id")
+	@JoinColumn(name = "role_id", nullable = false)
 	private Role role;
 	
 	@ManyToOne
-	@JoinColumn(name = "status_id")
+	@JoinColumn(name = "state_id", nullable = false)
 	private Status status;
+	
+	@OneToMany (mappedBy = "user")
+	private List<Ticket> tickets;
 
 	
 	
