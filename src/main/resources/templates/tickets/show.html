@@ -21,12 +21,39 @@
 									    <h5 class="card-title">											
 											Description: [[ *{description} ]]
 										</h5>
+										<ul>																						
+											<th:block th:each = "note: ${ticket.notes}">
+												<li>Author: [[${note.user.fullName}]]</li>
+												<li>Data created: [[${note.createdDate}]]</li>
+												<li>Content: [[${note.content}]]</li>
+											</th:block>
+										</ul>										
 									    <a th:href="@{/tickets}" class="btn btn-primary"> Back </a>
 									  </div>
 									</div>
 								</div>								
-							</div>
-																
+							</div>								
+						</th:block>
+						
+						<!-- Accordion -->
+						<th:block >
+							<div class="accordion row justify-content-center py-4 " id="accordionPanelsStayOpenExample">
+								<div class="accordion-item col-6 " 
+								th:each = "note: ${ticket.notes}">
+								
+								    <h2 class="accordion-header">
+								      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+										Note: [[${note.createdDate}]]
+								      </button>
+								    </h2>
+								    <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
+								      <div class="accordion-body">
+								        <strong> Author: [[${note.user.fullName}]]</strong>
+										Content: [[${note.content}]]
+								      </div>
+								    </div>
+							  </div>
+							</div>							
 						</th:block>
 					</div>					
 				</div>
