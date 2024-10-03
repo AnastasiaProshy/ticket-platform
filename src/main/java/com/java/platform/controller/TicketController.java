@@ -117,21 +117,29 @@ public class TicketController
 	
 	
 	@PostMapping("/edit/{id}")
-	public String update(@Valid @ModelAttribute("ticket") Ticket formticket,
+	public String update( //@PathVariable("id") Integer id, 
+						@Valid @ModelAttribute("ticket") Ticket updatedformTicket,
 						BindingResult bindingResult,
 						Model model,
 						RedirectAttributes redirectAttributes)
 	{
+		
+		// If there are validation errors, stay on the edit page
 		if(bindingResult.hasErrors())
 		{
+			//model.addAttribute("ticket", updatedformTicket);
 			return "/tickets/edit";
 		}
 		
-		ticketService.update(formticket);
+		//updatedformTicket.setId(id); 
+		// Update the ticket
+		ticketService.update(updatedformTicket);
 		
+		// Add success message to flash attributes
 		redirectAttributes.addFlashAttribute("typeAlert", "warning");
-		redirectAttributes.addFlashAttribute("messageAlert", "The ticket " + formticket.getTitle() + " has been updated successfully");
+		redirectAttributes.addFlashAttribute("messageAlert", "The ticket " + updatedformTicket.getTitle() + " has been updated successfully");
 
+		// Redirect to the tickets index page after successful update
 		return "redirect:/tickets";
 	}
 	
