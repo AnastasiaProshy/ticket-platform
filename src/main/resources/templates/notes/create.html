@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 	<head th:insert="~{fragments/fragments :: head}"></head>
 		<body>
-			<header th:insert="~{fragments/navbar :: navbar('notes')}"></header>		
+			<header th:insert="~{fragments/navbar :: navbar('notes/create')}"></header>		
 			<main class="container">
 				<div class="row">
 					<div class="col-12">					
@@ -11,6 +11,7 @@
 							
 							<h1 class="py-4 mb-2 text-center">
 								Creating a new note
+								<!-- <span th:text="${note.ticket.title}"></span> -->
 							</h1>
 							
 							<div class="row justify-content-center">
@@ -18,15 +19,19 @@
 									<form 
 										id="note-form"
 										th:object="${note}"
-										th:action="@{/notes/create}" 
+										th:action="@{/tickets/{ticketId}/notes/create(ticketId=${ticket.id})}" 
 										method="POST">
+										
+										<h1>for Ticket [[${ticket.id}]]</h1>
+					                    <p>Ticket: [[${ticket.title}]]</p>
+				                    	<p>Created: [[${note.createdDate}]]</p>
 																														
+										<!-- <input type="hidden" th:field="*{ticket}" id="ticket">-->
 										
 										<div class="mb-3">
-										  <label for="content" class="form-label">content</label>
-										  <input type="text" class="form-control" id="content" placeholder="15"
-										  th:field="*{content}"
-										  th:errorClass="is-invalid">
+										  <label for="content" class="form-label">Content:</label>
+										  <input type="text" class="form-control" id="content" placeholder="Type your message"
+										  th:field="*{content}" th:errorClass="is-invalid">
 										  
 										 <div th:if="${#fields.hasErrors('content')}" class="invalid-feedback">
 										  <ul>
@@ -36,24 +41,23 @@
 										</div>								
 															
 										
-										<div class="mb-3">
+										<!-- <div class="mb-3">
 										  <label for="createdDate" class="form-label">Created Date:</label>
 										  <input type="date" class="form-control" id="createdDate" placeholder=""
 										  th:field="*{createdDate}"
-										  th:errorClass="is-invalid">
-										  
-										  <!-- createdDate Validation Errors -->
+										  th:errorClass="is-invalid">									  
+									
 										  <div th:if="${#fields.hasErrors('createdDate')}" class="invalid-feedback">
 											<ul>
 												<li th:each="err : ${#fields.errors('createdDate')}" th:text="${err}"></li>
 											</ul>
 										  </div>									  
-										</div>
+										</div> -->
 			
 										
 										<div class="mb-3 d-flex justify-content-between">
-											<input type="submit" class="btn btn-primary btn-lg" value="Create new note">
-											<input type="reset" class="btn btn-warning btn-lg" value="Reset fields">
+											<input type="submit" class="btn btn-primary" value="Create new note">
+											<input type="reset" class="btn btn-warning" value="Reset fields">
 										</div>
 									</form>
 								</div>								

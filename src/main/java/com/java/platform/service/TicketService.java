@@ -1,6 +1,6 @@
 package com.java.platform.service;
 
-import java.time.Instant;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +13,7 @@ import com.java.platform.repository.TicketRepository;
 @Service	// the one who @serves the controller, puts between the controller and repository, so no longer have the repository in controller but in service
 public class TicketService {
 	
-	private @Autowired TicketRepository ticketRepository;
+	private @Autowired TicketRepository ticketRepository;	// Repository injection
 	
 	
 	public List<Ticket> findAllSortedByRecent()
@@ -42,13 +42,15 @@ public class TicketService {
 	
 	public Ticket create(Ticket ticket)
 	{
+		//ticket.setCreatedAt(LocalDate.now());
+		//ticket.setUpdatedAt(LocalDate.now()); 
 		return ticketRepository.save(ticket);
 	}
 	
 	
 	public Ticket update(Ticket ticket)
 	{
-		ticket.setUpdatedAt(Instant.now());
+		ticket.setUpdatedAt(LocalDate.now());
 		return ticketRepository.save(ticket);
 	}
 	

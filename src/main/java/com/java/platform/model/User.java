@@ -1,13 +1,16 @@
 package com.java.platform.model;
 
 import java.util.List;
+import java.util.Set;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -40,16 +43,19 @@ public class User
 	@Column(name = "full_name", nullable = false)
 	private String fullName;
 	
-	@ManyToOne
-	@JoinColumn(name = "role_id", nullable = false)
-	private Role role;
+	@ManyToMany(fetch = FetchType.EAGER)
+	private Set<Role> roles;
 	
 	@ManyToOne
 	@JoinColumn(name = "state_id", nullable = false)
-	private Status status;
+	private UserStatus userStatus;
 	
 	@OneToMany (mappedBy = "user")
-	private List<Ticket> tickets;
+	private List<Ticket> tickets;	// created ticket concept to connect to, so User has a ticket he is connected to 
+	//	+ getter & setter
+	
+	@OneToMany (mappedBy = "user")
+	private List<Note> notes;
 
 	
 	
@@ -85,12 +91,36 @@ public class User
 		this.fullName = fullName;
 	}
 
-	public Role getRole() {
-		return role;
+	public UserStatus getStatus() {
+		return userStatus;
 	}
 
-	public void setRole(Role role) {
-		this.role = role;
+	public void setStatus(UserStatus userStatus) {
+		this.userStatus = userStatus;
+	}
+
+	public List<Ticket> getTickets() {
+		return tickets;
+	}
+
+	public void setTickets(List<Ticket> tickets) {
+		this.tickets = tickets;
+	}
+
+	public List<Note> getNotes() {
+		return notes;
+	}
+
+	public void setNotes(List<Note> notes) {
+		this.notes = notes;
+	}
+
+	public Set<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
 	}
 	
 }

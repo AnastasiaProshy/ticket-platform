@@ -21,14 +21,23 @@ public class NoteController {
 	
 	private @Autowired NoteService noteService;
 	
+	@GetMapping()
+	public String index(Model model)
+	{
+		model.addAttribute("notes", noteService.findAllSortedByCreatedDate());
+		return "/notes/index";
+	}
+
+	
+	
 	//CREATE
 	
-	@GetMapping("/create")
-	public String note(Model model)
-	{
-		model.addAttribute("note", new Note());
-		return "/notes";
-	}
+	//@GetMapping("/create")
+	//public String note(Model model)
+	//{
+		//model.addAttribute("note", new Note());
+		//return "/notes";
+	//}
 
 	
 	
@@ -37,21 +46,21 @@ public class NoteController {
 	@PostMapping("/create")
 	public String store(@Valid @ModelAttribute("note") Note formNote,
 						BindingResult bindingResult,
-						RedirectAttributes attributes,
-						Model model)
+						RedirectAttributes attributes)
+	//Model model
 	{
 		if (bindingResult.hasErrors())
 		{
-			return "/notes";
+			return "/notes/create";
 		}
 		else
 		{
 			noteService.create(formNote);
 			
 			attributes.addFlashAttribute("typeAlert", "success");
-			attributes.addFlashAttribute("messageAlert", "Great news! '" + formNote.getTitle() + "' has been added successfully");
+			attributes.addFlashAttribute("messageAlert", "Great news! '" + formNote.getId() + "' has been added successfully");
 			
-			return "redirect:/notes";
+			return "redirect:/tickets" + formNote.getTicket().getId();
 		}	
 	}
 

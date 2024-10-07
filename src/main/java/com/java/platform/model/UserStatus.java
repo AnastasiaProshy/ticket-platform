@@ -14,7 +14,7 @@ import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "states")
-public class Status {
+public class UserStatus {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

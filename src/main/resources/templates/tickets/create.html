@@ -1,119 +1,124 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 	<head th:insert="~{fragments/fragments :: head}"></head>
-		<body>
-			<header th:insert="~{fragments/navbar :: navbar('tickets/create')}"></header>		
-			<main class="container">
-				<div class="row">
-					<div class="col-12">					
+	<body>
+		<header th:insert="~{fragments/navbar :: navbar('tickets/create')}"></header>		
+		<main class="container">
+			<div class="row">
+			<div class="col-12">				
+				<th:block>							
+					<h1 class="py-4 mb-2 text-center">
+						Creating a new ticket
+					</h1>
 						
-						<th:block>
+					<div class="row justify-content-center">
+						<div class="col-6">								
+							<form 
+								id="ticket-form"
+								th:object="${ticket}"
+								th:action="@{/tickets/create}" 
+								method="POST">
+								
+								<p>Status: to do</p>
+								<p>Created: [[${ticket.createdAt}]]</p>
+								
+								<div class="form-check">
+								  <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+								  <label class="form-check-label" for="defaultCheck1">
+								    to do
+								  </label>
+								</div>
+																												
+																		
+								<div class="mb-3">
+									<label for="title" class="form-label">Title</label>
+									<input type="text" class="form-control" id="title" placeholder="Name it"
+										   th:field="*{title}"
+										   th:errorClass="is-invalid">
+								  
+									<div th:if="${#fields.hasErrors('title')}" class="invalid-feedback">
+										<ul>
+											<li th:each="err : ${#fields.errors('title')}" th:text="${err}"></li>
+										</ul>
+									</div>									  
+								</div>
+								
 							
-							<h1 class="py-4 mb-2 text-center">
-								Creating a new ticket
-							</h1>
-							
-							<div class="row justify-content-center">
-								<div class="col-6">								
-									<form 
-										id="ticket-form"
-										th:object="${ticket}"
-										th:action="@{/tickets/create}" 
-										method="POST">
-																				
-										<div class="mb-3">
-										  <label for="title" class="form-label">Title</label>
-										  <input type="text" class="form-control" id="title" placeholder="Dante Hall"
-										  th:field="*{title}"
-										  th:errorClass="is-invalid">
-										  
-										  <div th:if="${#fields.hasErrors('title')}" class="invalid-feedback">
-											<ul>
-												<li th:each="err : ${#fields.errors('title')}" th:text="${err}"></li>
-											</ul>
-										  </div>									  
-										</div>
-										
-										
-										<div class="mb-3">
-										  <label for="description" class="form-label">description</label>
-										  <input type="text" class="form-control" id="description" placeholder="some info"
-										  th:field="*{description}"
-										  th:errorClass="is-invalid">
-										  
-										 <div th:if="${#fields.hasErrors('description')}" class="invalid-feedback">
-										  <ul>
-										  	<li th:each="err : ${#fields.errors('description')}" th:text="${err}"></li>
-										  </ul>
-										  </div>										 
-										</div>
-										
-										
-										
-										<div class="mb-3">
-										  <label for="createdAt" class="form-label">Created Date:</label>
-										  <input type="date" class="form-control" id="createdAt" placeholder=""
-										  th:field="*{createdAt}"
-										  th:errorClass="is-invalid">
-										  
-										  <!-- createdAt Validation Errors -->
-										  <div th:if="${#fields.hasErrors('createdAt')}" class="invalid-feedback">
-											<ul>
-												<li th:each="err : ${#fields.errors('createdAt')}" th:text="${err}"></li>
-											</ul>
-										  </div>									  
-										</div>
+								<div class="mb-3">
+									<label for="description" class="form-label">description</label>
+								    <input type="text" class="form-control" id="description" placeholder="some info"
+										   th:field="*{description}"
+										   th:errorClass="is-invalid">
+								  
+								    <div th:if="${#fields.hasErrors('description')}" class="invalid-feedback">
+								    	<ul>
+								  			<li th:each="err : ${#fields.errors('description')}" th:text="${err}"></li>
+								  		</ul>
+									</div>										 
+								</div>
+								
+								
+								<!-- <select class="form-select mb-3" aria-label="Seleziona lo stato del ticket"
+									id="status"										  
+									th:field="*{status}"
+									th:errorClass="is-invalid">
+									<option value="" disabled selected>Ticket Status</option>
+									<option value="1">to do</option>
+									<option value="2">completed</option>
+									<option value="3">ongoing</option>
+									<option value="4">pending</option>
+								</select> 
 
-
-
-										<div class="mb-3">
-										  <label for="updatedAt" class="form-label">Updated Date:</label>
-										  <input type="date" class="form-control" id="updatedAt" placeholder=""
-										  th:field="*{updatedAt}"
-										  th:errorClass="is-invalid">
-										  
-										  <!-- updatedAt Validation Errors -->
-										  <div th:if="${#fields.hasErrors('updatedAt')}" class="invalid-feedback">
-											<ul>
-												<li th:each="err : ${#fields.errors('updatedAt')}" th:text="${err}"></li>
-											</ul>
-										  </div>									  
-										</div>
-
-
-
-										<select class="form-select" aria-label="Seleziona lo stato del ticket"
-										  id="status"										  
-										  th:field="*{status}"
-										  th:errorClass="is-invalid">
-										  <option value="" disabled selected>Ticket Status</option>
-										  <option value="1">TODO</option>
-										  <option value="2">COMPLETED</option>
-										  <option value="3">ONGOING</option>
-										  <option value="4">PENDING</option>
-										</select>
-
-										 <div th:if="${#fields.hasErrors('status')}" class="invalid-feedback">
-										  <ul>
-										  	<li th:each="err : ${#fields.errors('status')}" th:text="${err}"></li>
-										  </ul>
-										  </div>										 
-										</div>
-										
-										
-										<div class="mb-3 d-flex justify-content-between">
-											<input type="submit" class="btn btn-primary btn-lg" value="Create new ticket">
-											<input type="reset" class="btn btn-warning btn-lg" value="Reset fields">
-										</div>
-									</form>
-								</div>								
-							</div>
-																
-						</th:block>
-					</div>					
-				</div>
-			</main>
-			<footer th:replace="~{fragments/fragments :: footer}"></footer>	
-			<th:block th:replace="~{fragments/fragments :: scripts}"></th:block>
+								<div th:if="${#fields.hasErrors('status')}" class="invalid-feedback">
+									<ul>
+								  		<li th:each="err : ${#fields.errors('status')}" th:text="${err}"></li>
+									</ul>										  										 
+								</div>		-->						
+								
+								<div class="mb-3 d-flex justify-content-between">
+									<input type="submit" class="btn btn-primary btn-lg" value="Create new ticket">
+									<input type="reset" class="btn btn-warning btn-lg" value="Reset fields">
+								</div>
+							</form>
+						</div>								
+					</div>																
+				</th:block>
+			</div>					
+			</div>
+		</main>
+		<footer th:replace="~{fragments/fragments :: footer}"></footer>	
+		<th:block th:replace="~{fragments/fragments :: scripts}"></th:block>
 	</body>
 </html>
+
+
+<!-- <div class="mb-3">
+  <label for="createdAt" class="form-label">Created Date:</label>
+  <input type="date" class="form-control" id="createdAt" placeholder=""
+  th:field="*{createdAt}"
+  th:errorClass="is-invalid">
+  
+ 
+  <div th:if="${#fields.hasErrors('createdAt')}" class="invalid-feedback">
+	<ul>
+		<li th:each="err : ${#fields.errors('createdAt')}" th:text="${err}"></li>
+	</ul>
+  </div>									  
+</div>
+
+
+
+<div class="mb-3">
+  <label for="updatedAt" class="form-label">Updated Date:</label>
+  <input type="date" class="form-control" id="updatedAt" placeholder=""
+  th:field="*{updatedAt}"
+  th:errorClass="is-invalid">
+  
+
+  <div th:if="${#fields.hasErrors('updatedAt')}" class="invalid-feedback">
+	<ul>
+		<li th:each="err : ${#fields.errors('updatedAt')}" th:text="${err}"></li>
+	</ul>
+  </div>									  
+</div> -->
+

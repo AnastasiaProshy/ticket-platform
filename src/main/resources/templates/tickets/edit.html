@@ -57,13 +57,13 @@
 										
 										
 										
-										<div class="mb-3">
+									<!-- 	<div class="mb-3">
 										  <label for="createdAt" class="form-label">Created Date:</label>
 										  <input type="date" class="form-control" id="createdAt" placeholder=""
 										  th:field="*{createdAt}"
 										  th:errorClass="is-invalid">
 										  
-										  <!-- createdAt Validation Errors -->
+										  
 										  <div th:if="${#fields.hasErrors('createdAt')}" class="invalid-feedback">
 											<ul>
 												<li th:each="err : ${#fields.errors('createdAt')}" th:text="${err}"></li>
@@ -79,13 +79,13 @@
 										  th:field="*{updatedAt}"
 										  th:errorClass="is-invalid">
 										  
-										  <!-- updatedAt Validation Errors -->
+									
 										  <div th:if="${#fields.hasErrors('updatedAt')}" class="invalid-feedback">
 											<ul>
 												<li th:each="err : ${#fields.errors('updatedAt')}" th:text="${err}"></li>
 											</ul>
 										  </div>									  
-										</div>
+										</div> 	 -->
 
 									
 										
@@ -94,10 +94,10 @@
 										  th:field="*{status}"
 										  th:errorClass="is-invalid">
 										  <option value="" disabled selected>Ticket Status</option>
-										  <option value="1">TODO</option>
-										  <option value="2">COMPLETED</option>
-										  <option value="3">ONGOING</option>
-										  <option value="4">PENDING</option>
+										  <option value="1">to do</option>
+										  <option value="2">completed</option>
+										  <option value="3">ongoing</option>
+										  <option value="4">pending</option>
 										</select>
 										
 										 <div th:if="${#fields.hasErrors('status')}" class="invalid-feedback">

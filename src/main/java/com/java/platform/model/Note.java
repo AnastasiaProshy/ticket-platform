@@ -1,6 +1,5 @@
 package com.java.platform.model;
 
-import java.sql.Timestamp;
 import java.time.LocalDate;
 
 import jakarta.persistence.Column;
@@ -11,7 +10,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "notes")
@@ -21,10 +22,13 @@ public class Note
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
+	@NotNull
+	@NotEmpty
+	@Size(min = 3, max = 255)
 	@Column(name = "content_text", nullable = false)
 	private String content;
 	
-	@NotNull
+
 	//@NotEmpty
 	@Column(name = "created_at", nullable = false)
 	private LocalDate createdDate;
@@ -60,7 +64,7 @@ public class Note
 		return createdDate;
 	}
 
-	public void setCreatedDate(Timestamp createdAt) {
+	public void setCreatedDate(LocalDate createdDate) {
 		this.createdDate = createdDate;
 	}
 

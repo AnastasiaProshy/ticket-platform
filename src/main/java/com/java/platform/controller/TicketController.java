@@ -1,5 +1,6 @@
 package com.java.platform.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.java.platform.model.Note;
 import com.java.platform.model.Ticket;
 import com.java.platform.service.TicketService;
 
@@ -22,7 +24,7 @@ import jakarta.validation.Valid;
 @Controller
 @RequestMapping("/tickets")
 public class TicketController
-{	// repository field con autowired per d.i.
+{	
 	// private @Autowired TicketRepository ticketRepository;
 	
 	private @Autowired TicketService ticketService;
@@ -69,6 +71,22 @@ public class TicketController
 	}
 
 	
+	//NOTE
+	
+	@GetMapping("/{id}/notes/create")
+	public String note(@PathVariable("id") Integer id, Model model)
+	//RedirectAttributes redirectAttributes
+	{
+		Note note = new Note();
+		note.setCreatedDate(LocalDate.now());
+		note.setTicket(ticketService.getById(id));
+		model.addAttribute("note", note);
+		model.addAttribute("ticket", ticketService.getById(id));
+		return "/notes/create";
+	}
+	
+	
+	
 	//CREATE
 	
 	@GetMapping("/create")
@@ -92,15 +110,16 @@ public class TicketController
 		{
 			return "/tickets/create";
 		}
-		else
-		{
-			ticketService.create(formTicket);
+		
 			
+			ticketService.create(formTicket);			
 			attributes.addFlashAttribute("typeAlert", "success");
 			attributes.addFlashAttribute("messageAlert", "Great news! '" + formTicket.getTitle() + "' has been added successfully");
 			
-			return "redirect:/tickets";
-		}	
+            return "redirect:/tickets";
+			
+			
+			
 	}
 	
 	

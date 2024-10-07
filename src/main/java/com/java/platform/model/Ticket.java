@@ -9,8 +9,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -32,6 +30,7 @@ public class Ticket
 		private Integer id;
 		
 		@NotNull
+		@NotEmpty
 		@Size(min=2,max=255)
 		private String title;
 		
@@ -40,29 +39,35 @@ public class Ticket
 		@Size(min=5,max=255)
 		private String description;
 		
-		@CreationTimestamp
-		private LocalDate createdAt;
+		// Added @CreationTimestamp to automatically generate the creation date, set as non-updatable
+		//@CreationTimestamp
+		//@Column(name = "created_at", nullable = false, updatable = false)  // Only created once
+		//private LocalDate createdAt;
 		
+	    // Added @UpdateTimestamp to automatically generate the updated date each time the ticket is modified
 		@UpdateTimestamp
+		@Column(name = "updated_at", nullable = false)
 		private LocalDate updatedAt;
 		
-		@NotNull
-		private String status;
-		//@Enumerated(EnumType.STRING)  // To save enum as string in database
-	    //private TicketStatus status;  // Enum field, no longer String
-		
-		@NotNull
+		//private Integer toDoTickets;
+			
 		@ManyToOne
-		@JoinColumn(name = "user_id", nullable = false)
+		@JoinColumn(name = "user_id", nullable = false)	// Foreign key только для n-1 The foreign key column is JoinColumn which cannot have null value
 		private User user;
 		
-		@OneToMany (mappedBy = "ticket", fetch = FetchType.EAGER, cascade = {CascadeType.REMOVE})
+		 // Fetch type set to EAGER to automatically load notes with the ticket
+		//Let's Cascade delete all notes about the ticket
+		@OneToMany (mappedBy = "ticket", fetch = FetchType.EAGER, cascade = {CascadeType.REMOVE}) 
 		private List<Note> notes;
 		
+
+		@ManyToOne
+		@JoinColumn(name = "ticket_conditions_id", nullable = false)	// Foreign key только для n-1 The foreign key column is JoinColumn which cannot have null value
+		private TicketCondition ticketCondition;
 		
 		
 		//public enum TicketStatus {
-		//    TODO, COMPLETED, ONGOING, PENDING
+		//TO DO, COMPLETED, ONGOING, PENDING
 		//}
 		
 		//public void setStatus(TicketStatus status) {
@@ -86,24 +91,24 @@ public class Ticket
 		public void setDescription(String description) {
 			this.description = description;
 		}
-		public LocalDate getCreatedAt() {
-			return createdAt;
-		}
-		public void setCreatedAt(LocalDate createdAt) {
-			this.createdAt = createdAt;
-		}
+		//public LocalDate getCreatedAt() {
+		//	return createdAt;
+		//}
+		//public void setCreatedAt(LocalDate createdAt) {
+		//	this.createdAt = createdAt;
+		//}
 		public LocalDate getUpdatedAt() {
 			return updatedAt;
 		}
 		public void setUpdatedAt(LocalDate updatedAt) {
 			this.updatedAt = updatedAt;
 		}
-		public String getStatus() {
-			return status;
-		}
-		public void setStatus(String status) {
-			this.status = status;
-		}
+		//public String getStatus() {
+		//	return status;
+		//}
+		//public void setStatus(String status) {
+		//	this.status = status;
+		//}
 		public User getUser() {
 			return user;
 		}
@@ -115,6 +120,12 @@ public class Ticket
 		}
 		public void setNotes(List<Note> notes) {
 			this.notes = notes;
+		}
+		public TicketCondition getTicketCondition() {
+			return ticketCondition;
+		}
+		public void setTicketCondition(TicketCondition ticketCondition) {
+			this.ticketCondition = ticketCondition;
 		}
 		
 }
